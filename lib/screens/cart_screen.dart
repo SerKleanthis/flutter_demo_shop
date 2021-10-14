@@ -22,14 +22,17 @@ class CartScreen extends StatelessWidget {
                     'Total',
                     style: TextStyle(fontSize: 20),
                   ),
-                  // const SizedBox(width: 10),
                   const Spacer(),
                   Chip(
                     label: Text('${cart.getTotalAmount} \$'),
                     backgroundColor: Theme.of(context).backgroundColor,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<Orders>(context, listen: false).addOrder(
+                          cart.getItems.values.toList(), cart.getTotalAmount);
+                      cart.clearCart();
+                    },
                     child: const Text('Order Now!'),
                   )
                 ],
