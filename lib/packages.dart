@@ -14,7 +14,6 @@ export './data/theme.dart';
 //  Widgets
 export './widgets/product_item.dart';
 export './widgets/products_grid.dart';
-export './widgets/appbar.dart';
 export './widgets/badge.dart';
 export './widgets/cart_item.dart';
 export './widgets/order_item.dart';
