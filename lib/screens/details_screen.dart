@@ -20,6 +20,8 @@ class DetailsScreen extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 height: MediaQuery.of(context).size.height * 0.4,
@@ -48,7 +50,7 @@ class DetailsScreen extends StatelessWidget {
                   Chip(
                     label: Text(
                       '${product.price} \$',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black54,
                         fontSize: 22,
                       ),
@@ -62,7 +64,28 @@ class DetailsScreen extends StatelessWidget {
                 product.description,
                 textAlign: TextAlign.center,
                 softWrap: true,
-              )
+              ),
+              const SizedBox(height: 10),
+              const Divider(
+                thickness: 1.5,
+                indent: 15,
+                endIndent: 15,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.grey,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 50,
+                    vertical: 10,
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 18,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                onPressed: () {},
+                child: const Text('Add to Cart!'),
+              ),
             ],
           ),
         )

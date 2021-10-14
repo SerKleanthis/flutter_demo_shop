@@ -40,6 +40,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
               height: min(widget.order.products.length * 20.0 + 10, 180),
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 itemBuilder: (ctx, index) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
