@@ -4,6 +4,7 @@ ThemeData myThemeData(BuildContext context) {
   return ThemeData.light().copyWith(
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.white,
+      centerTitle: true,
       iconTheme: IconThemeData(color: Colors.black),
       titleTextStyle: TextStyle(
         color: Colors.black,
