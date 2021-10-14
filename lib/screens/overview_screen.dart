@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_demo_shop/screens/cart_screen.dart';
 import 'package:flutter_demo_shop/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 import '../packages.dart';
 
-enum FilterOptions { Favorites, All }
+enum FilterOptions { favorites, all }
 
 class MainScreen extends StatefulWidget {
   static const String routeName = '/';
@@ -19,7 +17,6 @@ class _MainScreenState extends State<MainScreen> {
   var _showFavoritesOnly = false;
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<Products>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -28,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {
-                if (selectedValue == FilterOptions.Favorites) {
+                if (selectedValue == FilterOptions.favorites) {
                   _showFavoritesOnly = true;
                 } else {
                   _showFavoritesOnly = false;
@@ -38,11 +35,11 @@ class _MainScreenState extends State<MainScreen> {
             itemBuilder: (_) => [
               const PopupMenuItem(
                 child: Text('Only Favorites'),
-                value: FilterOptions.Favorites,
+                value: FilterOptions.favorites,
               ),
               const PopupMenuItem(
                 child: Text('Show All'),
-                value: FilterOptions.All,
+                value: FilterOptions.all,
               ),
             ],
             icon: const Icon(

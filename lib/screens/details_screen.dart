@@ -23,6 +23,7 @@ class DetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // ignore: sized_box_for_whitespace
               Container(
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,

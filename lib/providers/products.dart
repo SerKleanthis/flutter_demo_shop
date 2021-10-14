@@ -4,33 +4,22 @@ import 'package:flutter/material.dart';
 import '../packages.dart';
 
 class Products with ChangeNotifier {
-  List<Product> _items = dummyData;
-  var _showFavoritesOnly = false;
+  List<Product> items = dummyData;
 
   List<Product> get getItems {
-    return [..._items];
+    return [...items];
   }
 
   List<Product> get getFavorites {
-    return _items.where((item) => item.isFavorites).toList();
+    return items.where((item) => item.isFavorites).toList();
   }
 
   Product findById(String id) {
-    return _items.firstWhere((prod) => prod.id == id);
+    return items.firstWhere((prod) => prod.id == id);
   }
 
   void addProduct(Product newProduct) {
-    _items.add(newProduct);
-    notifyListeners();
-  }
-
-  void showFavoritesOnly() {
-    _showFavoritesOnly = true;
-    notifyListeners();
-  }
-
-  void showAll() {
-    _showFavoritesOnly = false;
+    items.add(newProduct);
     notifyListeners();
   }
 }

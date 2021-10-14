@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import '../packages.dart';
@@ -18,7 +17,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       child: Column(
         children: [
           ListTile(
@@ -54,7 +53,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       ),
                       Text(
                         '${widget.order.products[index].quantity} x ${widget.order.products[index].price} \$',
-                        style: TextStyle(fontSize: 17),
+                        style: const TextStyle(fontSize: 17),
                       ),
                     ],
                   );
@@ -64,32 +63,6 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
             ),
         ],
       ),
-    );
-  }
-}
-
-class ExpandedContainer extends StatelessWidget {
-  final CartItem cartItem;
-
-  const ExpandedContainer(this.cartItem);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          cartItem.title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          '${cartItem.quantity}x ${cartItem.price} \$',
-          style: TextStyle(fontSize: 17),
-        ),
-      ],
     );
   }
 }
