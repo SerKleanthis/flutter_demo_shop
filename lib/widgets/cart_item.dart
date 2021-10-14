@@ -42,12 +42,12 @@ class _CartItemWidgetState extends State<CartItemWidget> {
           vertical: 4,
         ),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: ListTile(
             leading: FittedBox(
               child: CircleAvatar(
                 child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Text('${widget.cartItem.price} \$')),
               ),
             ),

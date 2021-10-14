@@ -8,19 +8,19 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text('Hello you!'),
+            title: const Text('Hello you!'),
             automaticallyImplyLeading: false,
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.shop),
-            title: Text('Shop'),
+            leading: const Icon(Icons.shop),
+            title: const Text('Shop'),
             onTap: () => Navigator.of(context)
                 .pushReplacementNamed(MainScreen.routeName),
           ),
           ListTile(
-            leading: Icon(Icons.payment),
-            title: Text('Orders'),
+            leading: const Icon(Icons.payment),
+            title: const Text('Orders'),
             onTap: () =>
                 Navigator.of(context).pushNamed(OrdersScreen.routeName),
           ),
