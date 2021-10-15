@@ -6,6 +6,10 @@ import '../packages.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit';
+  Product? product;
+
+  EditProductScreen(this.product);
+
   @override
   _EditProductScreenState createState() => _EditProductScreenState();
 }
@@ -15,10 +19,29 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _descriptionFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
-  var _editedTitle;
-  var _editedPrice;
-  var _editedDescription;
-  var _editedImageUrl;
+  String _editedTitle = '';
+  double _editedPrice = 0;
+  String _editedDescription = '';
+  String _editedImageUrl = '';
+  var _initValues = {
+    'title': '',
+    'price': '',
+    'description': '',
+    'imageUrl': '',
+  };
+
+  @override
+  void initState() {
+    if (widget.product != null) {
+      _initValues = {
+        'title': widget.product!.title,
+        'price': widget.product!.price.toString(),
+        'description': widget.product!.description,
+      };
+      _imageUrlController.text = widget.product!.imageUrl;
+    }
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -30,19 +53,28 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   void saveForm() {
     final isValid = _form.currentState!.validate();
-    if (isValid) {
+    if (!isValid) {
       return;
     }
+
     _form.currentState!.save();
     final Product newProduct = Product(
       id: DateTime.now().toString(),
-      title: _editedTitle,
-      description: _editedDescription,
+      title: _editedTitle.toString(),
+      description: _editedDescription.toString(),
       price: _editedPrice,
       imageUrl: _editedImageUrl,
     );
-    Provider.of<Products>(context, listen: false).addProduct(newProduct);
-    log(newProduct.description);
+
+    if (widget.product != null) {
+      Provider.of<Products>(context, listen: false)
+          .updateProduct(widget.product!.id, newProduct);
+    } else {
+      Provider.of<Products>(context, listen: false).addProduct(newProduct);
+    }
+
+    // Provider.of<Products>(context, listen: false).addProduct(newProduct);
+    // log(newProduct.description);
   }
 
   @override
@@ -64,6 +96,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _initValues['title'],
                 decoration: const InputDecoration(
                   labelText: 'Title',
                 ),
@@ -78,9 +111,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   }
                   return null;
                 },
-                onSaved: (value) => _editedTitle = value,
+                onSaved: (value) => _editedTitle = value!,
               ),
               TextFormField(
+                initialValue: _initValues['price'],
                 decoration: const InputDecoration(
                   labelText: 'Price',
                 ),
@@ -100,6 +134,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 onSaved: (value) => _editedPrice = double.parse(value!),
               ),
               TextFormField(
+                initialValue: _initValues['description'],
                 decoration: const InputDecoration(
                   labelText: 'Description',
                 ),
@@ -114,7 +149,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   }
                   return null;
                 },
-                onSaved: (value) => _editedDescription = value,
+                onSaved: (value) => _editedDescription = value!,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -133,6 +168,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      // initialValue: _imageUrlController.text,
                       decoration: InputDecoration(labelText: 'Image URL'),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
@@ -145,7 +181,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         }
                         return null;
                       },
-                      onSaved: (value) => _editedImageUrl = value,
+                      onSaved: (value) => _editedImageUrl = value!,
                       // onFieldSubmitted: (_) => saveForm(),
                     ),
                   )

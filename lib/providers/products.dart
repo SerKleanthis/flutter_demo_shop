@@ -31,4 +31,15 @@ class Products with ChangeNotifier {
     _showFavoritesOnly = false;
     notifyListeners();
   }
+
+  void updateProduct(String id, Product updatedProduct) {
+    final productIndex = _items.indexWhere((prod) => prod.id == id);
+    _items[productIndex] = updatedProduct;
+    notifyListeners();
+  }
+
+  void removeProduct(String id) {
+    _items.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
 }

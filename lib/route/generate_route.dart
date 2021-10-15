@@ -19,7 +19,11 @@ class GenerateRoute {
       case '/user_products':
         return MaterialPageRoute(builder: (_) => UserProductsScreen());
       case '/edit':
-        return MaterialPageRoute(builder: (_) => EditProductScreen());
+        if (settings.arguments is Product) {
+          final args = settings.arguments as Product;
+          return MaterialPageRoute(builder: (_) => EditProductScreen(args));
+        }
+        return MaterialPageRoute(builder: (_) => EditProductScreen(null));
     }
 
     return _errorRoute();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../packages.dart';
 
 class UserProductItem extends StatelessWidget {
@@ -18,11 +19,14 @@ class UserProductItem extends StatelessWidget {
         child: Row(
           children: [
             IconButton(
-              onPressed: () {},
+              onPressed: () => Navigator.of(context)
+                  .pushNamed(EditProductScreen.routeName, arguments: product),
               icon: Icon(Icons.edit),
             ),
             IconButton(
-              onPressed: () {},
+              // FIXME: delete button doesn't work
+              onPressed: () => Provider.of<Products>(context, listen: false)
+                  .removeProduct(product.id),
               icon: Icon(Icons.delete),
               color: Colors.red,
             ),
