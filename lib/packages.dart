@@ -3,6 +3,7 @@ export './screens/overview_screen.dart';
 export './screens/details_screen.dart';
 export './screens/cart_screen.dart';
 export './screens/orders_screen.dart';
+export './screens/user_products_screen.dart';
 
 //  Models
 export './models/product.dart';
@@ -18,6 +19,7 @@ export './widgets/appbar.dart';
 export './widgets/badge.dart';
 export './widgets/cart_item.dart';
 export './widgets/order_item.dart';
+export './widgets/user_product_item.dart';
 
 //  Providers
 export './providers/products.dart';

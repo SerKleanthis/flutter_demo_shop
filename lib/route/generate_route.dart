@@ -17,6 +17,8 @@ class GenerateRoute {
         return MaterialPageRoute(builder: (_) => CartScreen());
       case '/orders':
         return MaterialPageRoute(builder: (_) => OrdersScreen());
+      case '/user_products':
+        return MaterialPageRoute(builder: (_) => UserProductsScreen());
     }
 
     return _errorRoute();

@@ -15,7 +15,6 @@ class DetailsScreen extends StatelessWidget {
     // final product = Provider.of<Product>(context);
     return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: Text(product.title),
         ),
         body: SingleChildScrollView(
