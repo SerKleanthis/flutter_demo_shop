@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../packages.dart';
-
 class CartItem {
   final String id;
   final String productId;

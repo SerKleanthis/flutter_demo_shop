@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../packages.dart';
 
 class Badge extends StatelessWidget {

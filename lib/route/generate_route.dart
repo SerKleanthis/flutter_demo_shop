@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo_shop/screens/cart_screen.dart';
-import 'package:flutter_demo_shop/screens/edit_product_screen.dart';
 import '../packages.dart';
 
 class GenerateRoute {

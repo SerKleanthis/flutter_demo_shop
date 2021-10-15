@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_demo_shop/screens/cart_screen.dart';
-import 'package:flutter_demo_shop/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 import '../packages.dart';
 
