@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo_shop/screens/cart_screen.dart';
+import 'package:flutter_demo_shop/screens/edit_product_screen.dart';
 import '../packages.dart';
 
 class GenerateRoute {
@@ -19,6 +20,8 @@ class GenerateRoute {
         return MaterialPageRoute(builder: (_) => OrdersScreen());
       case '/user_products':
         return MaterialPageRoute(builder: (_) => UserProductsScreen());
+      case '/edit':
+        return MaterialPageRoute(builder: (_) => EditProductScreen());
     }
 
     return _errorRoute();
