@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -5,11 +7,10 @@ import '../packages.dart';
 
 class Products with ChangeNotifier {
   static const String url =
-      'https://flutter-project-demo-91a09-default-rtdb.firebaseio.com/products.json';
-  var uri = Uri.parse(url);
+      'https://flutter-project-demo-91a09-default-rtdb.firebaseio.com';
   List<Product> items = [];
-  // var _showFavoritesOnly = false;
 
+  // Getters
   List<Product> get getItems {
     return [...items];
   }
@@ -23,6 +24,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
+    var uri = Uri.parse(url + '/products.json');
     try {
       final response = await http.get(uri);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -46,6 +48,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
+    var uri = Uri.parse(url + '/products.json');
     try {
       final response = await http.post(uri,
           body: json.encode({
@@ -73,15 +76,42 @@ class Products with ChangeNotifier {
     }
   }
 
-  void updateProduct(String id, Product updatedProduct) {
+  Future<void> updateProduct(String id, Product updatedProduct) async {
     final productIndex = items.indexWhere((prod) => prod.id == id);
-    items[productIndex] = updatedProduct;
-    notifyListeners();
+
+    try {
+      if (productIndex >= 0) {
+        var uri = Uri.parse(url + '/products/$id.json');
+        final response = await http.patch(uri,
+            body: json.encode({
+              'title': updatedProduct.title,
+              'description': updatedProduct.description,
+              'imageUrl': updatedProduct.imageUrl,
+              'price': updatedProduct.price,
+              // 'isFavorites': updatedProduct.isFavorites,
+            }));
+        log(response.body.toString());
+
+        items[productIndex] = updatedProduct;
+        notifyListeners();
+      } else {}
+    } catch (onError) {
+      rethrow;
+    }
   }
 
-  void deleteProduct(String id) {
-    items.removeWhere((element) => element.id == id);
-    notifyListeners();
+  Future<void> deleteProduct(String id) async {
+    var uri = Uri.parse(url + '/products/$id.json');
+
+    try {
+      final response = await http.delete(uri);
+      log(response.body.toString());
+
+      items.removeWhere((element) => element.id == id);
+      notifyListeners();
+    } catch (onError) {
+      rethrow;
+    }
   }
 
   void restoreProduct(String id) {
