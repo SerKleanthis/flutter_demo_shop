@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../packages.dart';
 
 class Products with ChangeNotifier {
-  List<Product> _items = dummyData;
-  var _showFavoritesOnly = false;
+  final List<Product> _items = dummyData;
+  // var _showFavoritesOnly = false;
 
   List<Product> get getItems {
     return [..._items];
@@ -22,15 +22,15 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void showFavoritesOnly() {
-    _showFavoritesOnly = true;
-    notifyListeners();
-  }
+  // void showFavoritesOnly() {
+  //   _showFavoritesOnly = true;
+  //   notifyListeners();
+  // }
 
-  void showAll() {
-    _showFavoritesOnly = false;
-    notifyListeners();
-  }
+  // void showAll() {
+  //   _showFavoritesOnly = false;
+  //   notifyListeners();
+  // }
 
   void updateProduct(String id, Product updatedProduct) {
     final productIndex = _items.indexWhere((prod) => prod.id == id);
@@ -38,8 +38,14 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeProduct(String id) {
+  void deleteProduct(String id) {
     _items.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
+
+  void restoreProduct(String id) {
+    Product restoredProduct = _items.firstWhere((element) => element.id == id);
+    addProduct(restoredProduct);
     notifyListeners();
   }
 }

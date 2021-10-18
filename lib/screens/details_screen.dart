@@ -22,7 +22,7 @@ class DetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 child: Hero(

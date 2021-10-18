@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'dart:developer';
 import '../packages.dart';
 
 class EditProductScreen extends StatefulWidget {
@@ -73,8 +72,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       Provider.of<Products>(context, listen: false).addProduct(newProduct);
     }
 
-    // Provider.of<Products>(context, listen: false).addProduct(newProduct);
-    // log(newProduct.description);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -169,7 +167,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   Expanded(
                     child: TextFormField(
                       // initialValue: _imageUrlController.text,
-                      decoration: InputDecoration(labelText: 'Image URL'),
+                      decoration: const InputDecoration(labelText: 'Image URL'),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
                       controller: _imageUrlController,
