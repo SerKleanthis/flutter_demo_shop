@@ -12,6 +12,26 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() => _isLoading = true);
+      Provider.of<Products>(context)
+          .fetchAndSetProducts()
+          .then((_) => setState(() => _isLoading = false));
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   var _showFavoritesOnly = false;
   @override
   Widget build(BuildContext context) {
@@ -63,7 +83,9 @@ class _MainScreenState extends State<MainScreen> {
         elevation: 4,
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(_showFavoritesOnly),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ProductsGrid(_showFavoritesOnly),
     );
   }
 }

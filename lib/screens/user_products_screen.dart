@@ -6,7 +6,8 @@ class UserProductsScreen extends StatelessWidget {
   static const routeName = '/user_products';
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<Products>(context);
+    final products = Provider.of<Products>(context).getItems;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Products'),
@@ -22,17 +23,18 @@ class UserProductsScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: ListView.builder(
-          itemBuilder: (_, index) {
-            return Column(
+          itemBuilder: (_, index) => ChangeNotifierProvider.value(
+            value: products[index],
+            child: Column(
               children: [
-                UserProductItem(products.getItems[index]),
+                UserProductItem(products[index]),
                 const Divider(
                   thickness: 1.5,
                 ),
               ],
-            );
-          },
-          itemCount: products.getItems.length,
+            ),
+          ),
+          itemCount: products.length,
         ),
       ),
     );
