@@ -15,10 +15,7 @@ class _MainScreenState extends State<MainScreen> {
   var _showFavoritesOnly = false;
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-=======
     // final productsData = Provider.of<Products>(context, listen: false);
->>>>>>> User-Interface-branch
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

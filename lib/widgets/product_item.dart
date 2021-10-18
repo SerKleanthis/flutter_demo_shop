@@ -44,12 +44,6 @@ class ProductItem extends StatelessWidget {
               },
             ),
             trailing: IconButton(
-<<<<<<< HEAD
-              icon: const Icon(Icons.shopping_cart_outlined),
-              onPressed: () => cart.addItem(
-                  product.id, product.id, product.title, product.price),
-            ),
-=======
                 icon: const Icon(Icons.shopping_cart_outlined),
                 onPressed: () {
                   cart.addItem(
@@ -64,7 +58,6 @@ class ProductItem extends StatelessWidget {
                     ),
                   ));
                 }),
->>>>>>> User-Interface-branch
           ),
         ),
       ),
