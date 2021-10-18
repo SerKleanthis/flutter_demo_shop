@@ -44,10 +44,27 @@ class ProductItem extends StatelessWidget {
               },
             ),
             trailing: IconButton(
+<<<<<<< HEAD
               icon: const Icon(Icons.shopping_cart_outlined),
               onPressed: () => cart.addItem(
                   product.id, product.id, product.title, product.price),
             ),
+=======
+                icon: const Icon(Icons.shopping_cart_outlined),
+                onPressed: () {
+                  cart.addItem(
+                      product.id, product.id, product.title, product.price);
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('${product.title} added to cart!'),
+                    duration: const Duration(seconds: 1),
+                    action: SnackBarAction(
+                      label: 'Undo',
+                      onPressed: () => cart.removeSingleItem(product.id),
+                    ),
+                  ));
+                }),
+>>>>>>> User-Interface-branch
           ),
         ),
       ),

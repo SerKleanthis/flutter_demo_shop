@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo_shop/screens/cart_screen.dart';
-import 'package:flutter_demo_shop/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 import '../packages.dart';
 
@@ -17,6 +15,10 @@ class _MainScreenState extends State<MainScreen> {
   var _showFavoritesOnly = false;
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
+=======
+    // final productsData = Provider.of<Products>(context, listen: false);
+>>>>>>> User-Interface-branch
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

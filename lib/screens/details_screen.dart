@@ -15,7 +15,6 @@ class DetailsScreen extends StatelessWidget {
     // final product = Provider.of<Product>(context);
     return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
           title: Text(product.title),
         ),
         body: SingleChildScrollView(
@@ -23,8 +22,12 @@ class DetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+<<<<<<< HEAD
               // ignore: sized_box_for_whitespace
               Container(
+=======
+              SizedBox(
+>>>>>>> User-Interface-branch
                 height: MediaQuery.of(context).size.height * 0.4,
                 width: double.infinity,
                 child: Hero(

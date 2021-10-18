@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'dart:math';
+=======
+>>>>>>> User-Interface-branch
 import 'package:intl/intl.dart';
+import 'dart:math';
 import '../packages.dart';
 
 class OrderItemWidget extends StatefulWidget {

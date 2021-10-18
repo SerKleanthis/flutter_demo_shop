@@ -3,6 +3,8 @@ export './screens/overview_screen.dart';
 export './screens/details_screen.dart';
 export './screens/cart_screen.dart';
 export './screens/orders_screen.dart';
+export './screens/user_products_screen.dart';
+export './screens/edit_product_screen.dart';
 
 //  Models
 export './models/product.dart';
@@ -15,8 +17,10 @@ export './data/theme.dart';
 export './widgets/product_item.dart';
 export './widgets/products_grid.dart';
 export './widgets/badge.dart';
+export './widgets/drawer.dart';
 export './widgets/cart_item.dart';
 export './widgets/order_item.dart';
+export './widgets/user_product_item.dart';
 
 //  Providers
 export './providers/products.dart';

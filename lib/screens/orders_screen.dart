@@ -12,6 +12,7 @@ class OrdersScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Your Orders'),
       ),
+      drawer: AppDrawer(),
       body: ListView.builder(
         itemBuilder: (ctx, index) {
           return OrderItemWidget(orders.getOrders[index]);
