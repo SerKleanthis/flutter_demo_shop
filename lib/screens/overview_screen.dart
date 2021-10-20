@@ -12,24 +12,21 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  var _isInit = true;
-  var _isLoading = false;
+  Future? _productsFuture;
 
   @override
   void initState() {
+    _productsFuture = _obtainFuture();
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    if (_isInit) {
-      setState(() => _isLoading = true);
-      Provider.of<Products>(context)
-          .fetchAndSetProducts()
-          .then((_) => setState(() => _isLoading = false));
-    }
-    _isInit = false;
     super.didChangeDependencies();
+  }
+
+  Future _obtainFuture() {
+    return Provider.of<Products>(context, listen: false).fetchAndSetProducts();
   }
 
   var _showFavoritesOnly = false;
@@ -83,9 +80,26 @@ class _MainScreenState extends State<MainScreen> {
         elevation: 4,
       ),
       drawer: AppDrawer(),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ProductsGrid(_showFavoritesOnly),
+      body: FutureBuilder(
+        future: _productsFuture,
+        builder: (_, dataSnapshot) {
+          if (dataSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return Consumer<Products>(
+              builder: (_, products, ch) {
+                return ProductsGrid(_showFavoritesOnly);
+              },
+            );
+            // if (dataSnapshot.error != null) {
+            //   // TODO: add an error screen
+            //   return const Center(child: Text('Error'));
+            // } else {
+
+            // }
+          }
+        },
+      ),
     );
   }
 }

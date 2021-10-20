@@ -14,15 +14,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (ctx) => Products()),
+        ChangeNotifierProvider(create: (ctx) => Auth()),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (ctx) => Products('', []),
+          update: (ctx, auth, prevProducts) => Products(
+            auth.getToken,
+            prevProducts == null ? [] : prevProducts.getItems,
+          ),
+        ),
         ChangeNotifierProvider(create: (ctx) => Cart()),
         ChangeNotifierProvider(create: (ctx) => Orders()),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: myThemeData(context),
-        initialRoute: MainScreen.routeName,
-        onGenerateRoute: GenerateRoute.generateRoute,
+      child: Consumer<Auth>(
+        builder: (_, auth, ch) => MaterialApp(
+          title: 'Flutter Demo',
+          theme: myThemeData(context),
+          initialRoute:
+              auth.isAuth ? MainScreen.routeName : AuthScreen.routeName,
+          onGenerateRoute: GenerateRoute.generateRoute,
+        ),
       ),
     );
   }

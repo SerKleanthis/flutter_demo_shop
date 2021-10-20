@@ -5,6 +5,7 @@ export './screens/cart_screen.dart';
 export './screens/orders_screen.dart';
 export './screens/user_products_screen.dart';
 export './screens/edit_product_screen.dart';
+export './screens/auth_screen.dart';
 
 //  Models
 export './models/product.dart';
@@ -26,6 +27,10 @@ export './widgets/user_product_item.dart';
 export './providers/products.dart';
 export './providers/cart.dart';
 export './providers/orders.dart';
+export './providers/auth.dart';
 
 // Route
 export './route/generate_route.dart';
+
+// Exceptions
+export './data/http_exception.dart';

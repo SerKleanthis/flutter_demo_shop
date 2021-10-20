@@ -8,23 +8,26 @@ import '../packages.dart';
 class Products with ChangeNotifier {
   static const String url =
       'https://flutter-project-demo-91a09-default-rtdb.firebaseio.com';
-  List<Product> items = [];
+  final String? authToken;
+  List<Product> _items = [];
+
+  Products(this.authToken, this._items);
 
   // Getters
   List<Product> get getItems {
-    return [...items];
+    return [..._items];
   }
 
   List<Product> get getFavorites {
-    return items.where((item) => item.isFavorites).toList();
+    return _items.where((item) => item.isFavorites).toList();
   }
 
   Product findById(String id) {
-    return items.firstWhere((prod) => prod.id == id);
+    return _items.firstWhere((prod) => prod.id == id);
   }
 
   Future<void> fetchAndSetProducts() async {
-    var uri = Uri.parse(url + '/products.json');
+    var uri = Uri.parse(url + '/products.json?auth=$authToken');
     try {
       final response = await http.get(uri);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -40,10 +43,12 @@ class Products with ChangeNotifier {
         ));
       });
 
-      items = loadedProducts;
+      _items = loadedProducts;
       notifyListeners();
+    } on HttpException catch (onError) {
+      throw HttpException(onError);
     } catch (onError) {
-      rethrow;
+      throw Exception(onError);
     }
   }
 
@@ -69,15 +74,17 @@ class Products with ChangeNotifier {
         id: json.decode(response.body)['name'],
       );
 
-      items.add(newProduct);
+      _items.add(newProduct);
       notifyListeners();
+    } on HttpException catch (onError) {
+      throw HttpException(onError);
     } catch (onError) {
-      rethrow;
+      throw Exception(onError);
     }
   }
 
   Future<void> updateProduct(String id, Product updatedProduct) async {
-    final productIndex = items.indexWhere((prod) => prod.id == id);
+    final productIndex = _items.indexWhere((prod) => prod.id == id);
 
     try {
       if (productIndex >= 0) {
@@ -92,11 +99,13 @@ class Products with ChangeNotifier {
             }));
         log(response.body.toString());
 
-        items[productIndex] = updatedProduct;
+        _items[productIndex] = updatedProduct;
         notifyListeners();
       } else {}
+    } on HttpException catch (onError) {
+      throw HttpException(onError);
     } catch (onError) {
-      rethrow;
+      throw Exception(onError);
     }
   }
 
@@ -107,15 +116,17 @@ class Products with ChangeNotifier {
       final response = await http.delete(uri);
       log(response.body.toString());
 
-      items.removeWhere((element) => element.id == id);
+      _items.removeWhere((element) => element.id == id);
       notifyListeners();
+    } on HttpException catch (onError) {
+      throw HttpException(onError);
     } catch (onError) {
-      rethrow;
+      throw Exception(onError);
     }
   }
 
   void restoreProduct(String id) {
-    Product restoredProduct = items.firstWhere((element) => element.id == id);
+    Product restoredProduct = _items.firstWhere((element) => element.id == id);
     addProduct(restoredProduct);
     notifyListeners();
   }

@@ -24,6 +24,8 @@ class GenerateRoute {
           return MaterialPageRoute(builder: (_) => EditProductScreen(args));
         }
         return MaterialPageRoute(builder: (_) => EditProductScreen(null));
+      case '/auth':
+        return MaterialPageRoute(builder: (_) => AuthScreen());
     }
 
     return _errorRoute();
