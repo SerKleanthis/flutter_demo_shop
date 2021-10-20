@@ -1,13 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:developer';
 import 'dart:convert';
 import '../packages.dart';
 
 class Products with ChangeNotifier {
   static const String url =
-      'https://flutter-project-demo-91a09-default-rtdb.firebaseio.com';
+      'https://flutter-project-demo-91a09-default-rtdb.firebaseio.com/products';
   final String? authToken;
   List<Product> _items = [];
 
@@ -27,7 +26,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    var uri = Uri.parse(url + '/products.json?auth=$authToken');
+    var uri = Uri.parse(url + '.json?auth=$authToken');
     try {
       final response = await http.get(uri);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -53,7 +52,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    var uri = Uri.parse(url + '/products.json');
+    var uri = Uri.parse(url + '.json?auth=$authToken');
     try {
       final response = await http.post(uri,
           body: json.encode({
@@ -88,7 +87,7 @@ class Products with ChangeNotifier {
 
     try {
       if (productIndex >= 0) {
-        var uri = Uri.parse(url + '/products/$id.json');
+        var uri = Uri.parse(url + '/$id.json?auth=$authToken');
         final response = await http.patch(uri,
             body: json.encode({
               'title': updatedProduct.title,
@@ -110,7 +109,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    var uri = Uri.parse(url + '/products/$id.json');
+    var uri = Uri.parse(url + '/$id.json?auth=$authToken');
 
     try {
       final response = await http.delete(uri);

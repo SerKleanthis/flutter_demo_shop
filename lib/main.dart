@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'packages.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
   runApp(const MyApp());
 }
 
@@ -12,6 +15,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var test = FlutterConfig.get('API_KEY');
+    print(test);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
@@ -22,8 +27,14 @@ class MyApp extends StatelessWidget {
             prevProducts == null ? [] : prevProducts.getItems,
           ),
         ),
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          create: (ctx) => Orders('', []),
+          update: (ctx, auth, prevOrders) => Orders(
+            auth.getToken,
+            prevOrders == null ? [] : prevOrders.getOrders,
+          ),
+        ),
         ChangeNotifierProvider(create: (ctx) => Cart()),
-        ChangeNotifierProvider(create: (ctx) => Orders()),
       ],
       child: Consumer<Auth>(
         builder: (_, auth, ch) => MaterialApp(

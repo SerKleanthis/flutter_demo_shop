@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_config/flutter_config.dart';
 import 'dart:convert';
 import 'dart:developer';
 import '../packages.dart';
@@ -10,7 +11,7 @@ class Auth with ChangeNotifier {
   static const String urlPrefix =
       'https://identitytoolkit.googleapis.com/v1/accounts:';
   static const String apiKey = '?key=';
-  static const String apiValue = 'AIzaSyBQ5yAG-MLPOEFlIldObB8QfccSnMfyZfE';
+  static String apiValue = FlutterConfig.get('API_KEY');
 
   String? _token;
   String? _userId;

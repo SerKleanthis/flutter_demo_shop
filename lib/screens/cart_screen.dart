@@ -7,6 +7,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
+    final token = Provider.of<Auth>(context).getToken;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cart'),
@@ -32,7 +33,9 @@ class CartScreen extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       Provider.of<Orders>(context, listen: false).addOrder(
-                          cart.getItems.values.toList(), cart.getTotalAmount);
+                        cart.getItems.values.toList(),
+                        cart.getTotalAmount,
+                      );
                       cart.clearCart();
                     },
                     child: const Text('Order Now!'),

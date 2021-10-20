@@ -20,11 +20,6 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
   Future _obtainFuture() {
     return Provider.of<Products>(context, listen: false).fetchAndSetProducts();
   }
@@ -85,18 +80,14 @@ class _MainScreenState extends State<MainScreen> {
         builder: (_, dataSnapshot) {
           if (dataSnapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
+          } else if (dataSnapshot.hasError) {
+            return const Center(child: Text('Error'));
           } else {
             return Consumer<Products>(
               builder: (_, products, ch) {
                 return ProductsGrid(_showFavoritesOnly);
               },
             );
-            // if (dataSnapshot.error != null) {
-            //   // TODO: add an error screen
-            //   return const Center(child: Text('Error'));
-            // } else {
-
-            // }
           }
         },
       ),
