@@ -5,7 +5,7 @@ import '../packages.dart';
 enum FilterOptions { favorites, all }
 
 class MainScreen extends StatefulWidget {
-  static const String routeName = '/';
+  static const String routeName = '/main';
 
   @override
   State<MainScreen> createState() => _MainScreenState();

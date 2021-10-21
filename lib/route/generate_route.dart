@@ -5,6 +5,8 @@ class GenerateRoute {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
+        return MaterialPageRoute(builder: (_) => AuthScreen());
+      case '/main':
         return MaterialPageRoute(builder: (_) => MainScreen());
       case '/details':
         final args = settings.arguments as String;
@@ -24,8 +26,7 @@ class GenerateRoute {
           return MaterialPageRoute(builder: (_) => EditProductScreen(args));
         }
         return MaterialPageRoute(builder: (_) => EditProductScreen(null));
-      case '/auth':
-        return MaterialPageRoute(builder: (_) => AuthScreen());
+      // case '/auth':
     }
 
     return _errorRoute();

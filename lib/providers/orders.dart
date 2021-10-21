@@ -21,16 +21,17 @@ class Orders with ChangeNotifier {
   static const url =
       'https://flutter-project-demo-91a09-default-rtdb.firebaseio.com/orders';
   final String? authToken;
+  final String? userId;
   List<OrderItem> _orders = [];
 
-  Orders(this.authToken, this._orders);
+  Orders(this.authToken, this.userId, this._orders);
 
   List<OrderItem> get getOrders {
     return _orders;
   }
 
   Future<void> fetchOrders() async {
-    final uri = Uri.parse(url + '.json?auth=$authToken');
+    final uri = Uri.parse(url + '/$userId.json?auth=$authToken');
 
     try {
       final response = await http.get(uri);
@@ -65,7 +66,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
-    final uri = Uri.parse(url + '.json?auth=$authToken');
+    final uri = Uri.parse(url + '/$userId.json?auth=$authToken');
 
     final timestamp = DateTime.now();
 

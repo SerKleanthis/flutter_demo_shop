@@ -12,7 +12,6 @@ class Auth with ChangeNotifier {
       'https://identitytoolkit.googleapis.com/v1/accounts:';
   static const String apiKey = '?key=';
   static String apiValue = FlutterConfig.get('API_KEY');
-
   String? _token;
   String? _userId;
   DateTime? _expiryDate;
@@ -75,5 +74,12 @@ class Auth with ChangeNotifier {
   Future<void> login(String? email, String? password) async {
     const String segment = 'signInWithPassword';
     return _authenticate(email, password, segment);
+  }
+
+  Future<void> logout() async {
+    _token = null;
+    _userId = null;
+    _expiryDate = null;
+    notifyListeners();
   }
 }

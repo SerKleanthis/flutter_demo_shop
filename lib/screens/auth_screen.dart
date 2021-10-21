@@ -5,7 +5,7 @@ import '../packages.dart';
 enum AuthMode { signup, login }
 
 class AuthScreen extends StatelessWidget {
-  static const String routeName = '/auth';
+  static const String routeName = '/';
 
   @override
   Widget build(BuildContext context) {
