@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CartItem {
-  final String id;
+  // final String id;
   final String productId;
   final String title;
   final int quantity;
   final double price;
 
   CartItem({
-    required this.id,
+    // required this.id,
     required this.productId,
     required this.title,
     required this.quantity,
@@ -49,7 +49,7 @@ class Cart with ChangeNotifier {
       _items.update(
           id,
           (item) => CartItem(
-                id: item.id,
+                // id: item.id,
                 productId: item.productId,
                 title: item.title,
                 quantity: item.quantity - 1,
@@ -65,7 +65,7 @@ class Cart with ChangeNotifier {
       _items.update(
           id,
           (value) => CartItem(
-                id: value.id,
+                // id: value.id,
                 productId: value.productId,
                 title: value.title,
                 quantity: value.quantity + 1,
@@ -75,7 +75,7 @@ class Cart with ChangeNotifier {
       _items.putIfAbsent(
           id,
           () => CartItem(
-                id: DateTime.now().toString(),
+                // id: DateTime.now().toString(),
                 title: title,
                 productId: productId,
                 quantity: 1,

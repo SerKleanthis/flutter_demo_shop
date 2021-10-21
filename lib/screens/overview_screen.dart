@@ -5,13 +5,26 @@ import '../packages.dart';
 enum FilterOptions { favorites, all }
 
 class MainScreen extends StatefulWidget {
-  static const String routeName = '/';
+  static const String routeName = '/main';
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
+  Future? _productsFuture;
+
+  @override
+  void initState() {
+    _productsFuture = _obtainFuture();
+    super.initState();
+  }
+
+  Future _obtainFuture() {
+    return Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts(true);
+  }
+
   var _showFavoritesOnly = false;
   @override
   Widget build(BuildContext context) {
@@ -63,7 +76,22 @@ class _MainScreenState extends State<MainScreen> {
         elevation: 4,
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(_showFavoritesOnly),
+      body: FutureBuilder(
+        future: _productsFuture,
+        builder: (_, dataSnapshot) {
+          if (dataSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (dataSnapshot.hasError) {
+            return const Center(child: Text('Error'));
+          } else {
+            return Consumer<Products>(
+              builder: (_, products, ch) {
+                return ProductsGrid(_showFavoritesOnly);
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }

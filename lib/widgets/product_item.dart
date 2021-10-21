@@ -10,6 +10,8 @@ class ProductItem extends StatelessWidget {
 
     final product = Provider.of<Product>(context);
     final cart = Provider.of<Cart>(context);
+    final token = Provider.of<Auth>(context).getToken;
+    final userId = Provider.of<Auth>(context).getUserId;
     return ChangeNotifierProvider.value(
       value: product,
       child: ClipRRect(
@@ -38,16 +40,16 @@ class ProductItem extends StatelessWidget {
             backgroundColor: Colors.black45,
             leading: IconButton(
               icon: Icon(
-                  product.isFavorites ? Icons.favorite : Icons.favorite_border),
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
               onPressed: () {
-                product.toggleFavoriteStatus();
+                product.toggleFavoriteStatus(token!, userId!);
               },
             ),
             trailing: IconButton(
                 icon: const Icon(Icons.shopping_cart_outlined),
                 onPressed: () {
-                  cart.addItem(
-                      product.id, product.id, product.title, product.price);
+                  cart.addItem(DateTime.now().toString(), product.id,
+                      product.title, product.price);
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text('${product.title} added to cart!'),
