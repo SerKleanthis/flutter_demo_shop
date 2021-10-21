@@ -5,12 +5,15 @@ import 'dart:convert';
 import '../packages.dart';
 
 class Products with ChangeNotifier {
-  static const String url =
+  static const String productsUrl =
       'https://flutter-project-demo-91a09-default-rtdb.firebaseio.com/products';
+  static const String favoritesUrl =
+      'https://flutter-project-demo-91a09-default-rtdb.firebaseio.com/userFavorites';
   final String? authToken;
+  final String? userId;
   List<Product> _items = [];
 
-  Products(this.authToken, this._items);
+  Products(this.authToken, this.userId, this._items);
 
   // Getters
   List<Product> get getItems {
@@ -18,31 +21,40 @@ class Products with ChangeNotifier {
   }
 
   List<Product> get getFavorites {
-    return _items.where((item) => item.isFavorites).toList();
+    return _items.where((item) => item.isFavorite).toList();
   }
 
   Product findById(String id) {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  Future<void> fetchAndSetProducts() async {
-    var uri = Uri.parse(url + '.json?auth=$authToken');
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    var filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    var productsUri =
+        Uri.parse(productsUrl + '.json?auth=$authToken&$filterString');
+    var favoritesUri = Uri.parse(productsUrl + '/$userId.json?auth=$authToken');
+
     try {
-      final response = await http.get(uri);
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      final List<Product> loadedProducts = [];
-      extractedData.forEach((key, value) {
-        loadedProducts.add(Product(
+      final response = await http.get(productsUri);
+      final productsData = json.decode(response.body) as Map<String, dynamic>;
+      final favResponse = await http.get(favoritesUri);
+      final favoritesData = json.decode(favResponse.body);
+
+      final List<Product> loadedData = [];
+      productsData.forEach((key, value) {
+        loadedData.add(Product(
           id: key,
           title: value['title'],
           description: value['description'],
           price: value['price'],
-          isFavorites: value['isFavorites'],
+          isFavorite:
+              favoritesData == null ? false : favoritesData[value] ?? false,
           imageUrl: value['imageUrl'],
         ));
       });
 
-      _items = loadedProducts;
+      _items = loadedData;
       notifyListeners();
     } on HttpException catch (onError) {
       throw HttpException(onError);
@@ -52,7 +64,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) async {
-    var uri = Uri.parse(url + '.json?auth=$authToken');
+    var uri = Uri.parse(productsUrl + '.json?auth=$authToken');
     try {
       final response = await http.post(uri,
           body: json.encode({
@@ -60,8 +72,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
-            'isFavorites': product.isFavorites,
-            // 'id': json.decode(resp)
+            'creatorId': userId,
           }));
 
       final newProduct = Product(
@@ -69,7 +80,6 @@ class Products with ChangeNotifier {
         description: product.description,
         imageUrl: product.imageUrl,
         price: product.price,
-        isFavorites: product.isFavorites,
         id: json.decode(response.body)['name'],
       );
 
@@ -87,7 +97,7 @@ class Products with ChangeNotifier {
 
     try {
       if (productIndex >= 0) {
-        var uri = Uri.parse(url + '/$id.json?auth=$authToken');
+        var uri = Uri.parse(productsUrl + '/$id.json?auth=$authToken');
         final response = await http.patch(uri,
             body: json.encode({
               'title': updatedProduct.title,
@@ -109,7 +119,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> deleteProduct(String id) async {
-    var uri = Uri.parse(url + '/$id.json?auth=$authToken');
+    var uri = Uri.parse(productsUrl + '/$id.json?auth=$authToken');
 
     try {
       final response = await http.delete(uri);

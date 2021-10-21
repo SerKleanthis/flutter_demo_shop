@@ -44,7 +44,7 @@ class Orders with ChangeNotifier {
           products: (value['products'] as List<dynamic>)
               .map(
                 (item) => CartItem(
-                  id: item['id'],
+                  // id: item['id'],
                   price: item['price'],
                   quantity: item['quantity'],
                   title: item['title'],
@@ -76,7 +76,7 @@ class Orders with ChangeNotifier {
             'dateTime': timestamp.toIso8601String(),
             'products': cartProducts
                 .map((item) => {
-                      'id': item.id,
+                      // 'id': item.id,
                       'productId': item.productId,
                       'title': item.title,
                       'quantity': item.quantity,

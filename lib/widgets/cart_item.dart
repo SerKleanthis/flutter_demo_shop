@@ -15,7 +15,7 @@ class _CartItemWidgetState extends State<CartItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(widget.cartItem.id),
+      key: ValueKey(widget.cartItem.productId),
       direction: DismissDirection.endToStart,
       background: Container(
         color: Colors.red,

@@ -21,7 +21,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future _obtainFuture() {
-    return Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+    return Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts(true);
   }
 
   var _showFavoritesOnly = false;
