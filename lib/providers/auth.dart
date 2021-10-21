@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_config/flutter_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:developer';
 import '../packages.dart';
@@ -15,6 +14,7 @@ class Auth with ChangeNotifier {
   String? _token;
   String? _userId;
   DateTime? _expiryDate;
+  bool autoLoggedIn = false;
 
   bool get isAuth {
     return getToken != null;
@@ -31,6 +31,33 @@ class Auth with ChangeNotifier {
       return _token;
     }
     return null;
+  }
+
+  bool get isAutoLoggedIn {
+    return autoLoggedIn;
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('token') &&
+        !prefs.containsKey('userId') &&
+        !prefs.containsKey('expiryDate')) {
+      // autoLoggedIn = false;
+      return false;
+    }
+
+    _expiryDate = DateTime.parse(prefs.getString('expiryDate') ?? '');
+
+    if (_expiryDate!.isBefore(DateTime.now())) {
+      // autoLoggedIn = false;
+      return false;
+    }
+
+    _token = prefs.getString('token');
+    _userId = prefs.getString('userId');
+    // autoLoggedIn = true;
+    notifyListeners();
+    return true;
   }
 
   Future<void> _authenticate(
@@ -58,7 +85,10 @@ class Auth with ChangeNotifier {
       _expiryDate = DateTime.now().add(Duration(seconds: duration));
 
       notifyListeners();
-      log(json.decode(response.body).toString());
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', _token!);
+      prefs.setString('userId', _userId!);
+      prefs.setString('expiryDate', _expiryDate!.toIso8601String());
     } on HttpException catch (onError) {
       throw HttpException(onError);
     } catch (onError) {

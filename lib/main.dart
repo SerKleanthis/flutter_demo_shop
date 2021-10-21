@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'packages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferences.getInstance();
   await FlutterConfig.loadEnvVariables();
   runApp(const MyApp());
 }
@@ -12,11 +14,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    var test = FlutterConfig.get('API_KEY');
-    print(test);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),

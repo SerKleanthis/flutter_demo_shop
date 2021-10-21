@@ -36,9 +36,18 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context)
+                    .pushReplacementNamed(AuthScreen.routeName);
                 Provider.of<Auth>(context, listen: false).logout();
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    AuthScreen.routeName, (route) => false);
+                // Navigator.of(context).pushNamedAndRemoveUntil(
+                //     AuthScreen.routeName, (route) => false);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Bye!!!'),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
               }),
         ],
       ),
