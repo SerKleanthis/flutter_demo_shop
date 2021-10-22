@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo_shop/packages.dart';
 
 ThemeData myThemeData(BuildContext context) {
   return ThemeData.light().copyWith(
@@ -12,6 +13,12 @@ ThemeData myThemeData(BuildContext context) {
         fontSize: 25,
         fontWeight: FontWeight.w400,
       ),
+    ),
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: CustomPageTransitionBuilder(),
+        TargetPlatform.iOS: CustomPageTransitionBuilder(),
+      },
     ),
   );
 }

@@ -10,29 +10,44 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final productsData = Provider.of<Products>(context);
     final product = Provider.of<Products>(context).findById(productId);
-    // final product = Provider.of<Product>(context);
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text(product.title),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.4,
-                width: double.infinity,
-                child: Hero(
-                  tag: product.id,
-                  child: Image.network(
-                    product.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+        body: CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          expandedHeight: deviceHeight * 0.3,
+          // bottom: ,
+          // centerTitle: true,
+          // collapsedHeight: deviceHeight * 0.2,
+          // forceElevated: true,
+          // snap: true,
+          pinned: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: Text(
+              product.title,
+              style: TextStyle(color: Colors.black),
+            ),
+            background: Hero(
+              tag: product.id,
+              child: Image.network(
+                product.imageUrl,
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+          elevation: 5,
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height * 0.4,
+              //   width: double.infinity,
+              //   child: ,
+              // ),
               const SizedBox(height: 10),
               Row(
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,30 +100,13 @@ class DetailsScreen extends StatelessWidget {
                 onPressed: () {},
                 child: const Text('Add to Cart!'),
               ),
+              SizedBox(
+                height: 800,
+              )
             ],
           ),
-        )
-        // FittedBox(
-        //   // height: MediaQuery.of(context).size.height,
-        //   // width: double.infinity,
-        //   fit: BoxFit.cover,
-        //   child: Container(
-        //     margin: const EdgeInsets.all(15),
-        //     child: ClipRRect(
-        //       borderRadius: BorderRadius.circular(10),
-        //       child: FittedBox(
-        //         fit: BoxFit.cover,
-        //         child: Center(
-        //           // borderOnForeground: false,
-        //           child: Hero(
-        //             tag: product.id,
-        //             child: Image.network(product.imageUrl),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        );
+        ),
+      ],
+    ));
   }
 }
