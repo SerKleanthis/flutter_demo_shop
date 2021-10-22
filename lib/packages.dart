@@ -31,6 +31,7 @@ export './providers/auth.dart';
 
 // Route
 export './route/generate_route.dart';
+export 'helpers/page_transition.dart';
 
 // Exceptions
 export './data/http_exception.dart';

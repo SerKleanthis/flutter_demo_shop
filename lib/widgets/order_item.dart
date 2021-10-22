@@ -16,27 +16,33 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          ListTile(
-            title: Text('${widget.order.amount} \$'),
-            subtitle: Text(
-              DateFormat('dd/MM/yyyy, HH:mm').format(widget.order.dateTime),
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      height: _expanded ? widget.order.products.length * 20.0 + 130 : 115,
+      // curve: Curves.easeInOut,
+      child: Card(
+        margin: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            ListTile(
+              title: Text('${widget.order.amount} \$'),
+              subtitle: Text(
+                DateFormat('dd/MM/yyyy, HH:mm').format(widget.order.dateTime),
+              ),
+              trailing: IconButton(
+                icon: Icon(_expanded ? Icons.expand_more : Icons.expand_less),
+                onPressed: () {
+                  setState(() {
+                    _expanded = !_expanded;
+                  });
+                },
+              ),
             ),
-            trailing: IconButton(
-              icon: Icon(_expanded ? Icons.expand_more : Icons.expand_less),
-              onPressed: () {
-                setState(() {
-                  _expanded = !_expanded;
-                });
-              },
-            ),
-          ),
-          if (_expanded)
-            Container(
-              height: min(widget.order.products.length * 20.0 + 10, 180),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              height: _expanded
+                  ? min(widget.order.products.length * 20.0 + 10, 180)
+                  : 0,
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
@@ -61,7 +67,8 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                 itemCount: widget.order.products.length,
               ),
             ),
-        ],
+          ],
+        ),
       ),
     );
   }
